@@ -1,0 +1,448 @@
+mysql> create table ACCOUNT;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table ACCOUNT(accno int (15) NOT NULL,brname varchar (15),bal int
+(10));
+Query OK, 0 rows affected, 2 warnings (0.88 sec)
+
+mysql> alter table ACCOUNT ADD PRIMARY KEY (accno);
+Query OK, 0 rows affected (1.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table BRANCH (brname varchar (15), brcity varchar (15), assests int (10) PRIMARY KEY (brname));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(brname))' at line 1
+mysql> create table BRANCH (brname varchar (15), brcity varchar (15), assests int (10) );
+Query OK, 0 rows affected, 1 warning (0.48 sec)
+
+mysql> alter table BRANCH ADD PRIMARY KEY (brname);
+Query OK, 0 rows affected (1.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table ACCOUNT ADD FOREIGN KEY (brname) REFERENCES (brname);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(brname)' at line 1
+mysql> alter table ACCOUNT ADD FOREIGN KEY (brname) REFERENCES (BRANCH);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(BRANCH)' at line 1
+mysql> alter table ACCOUNT ADD FOREIGN KEY (brname) REFERENCES BRANCH (brname);
+Query OK, 0 rows affected (1.37 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table CUSTOMER (custname varchar (20) NOT NULL , custstr varchar (20) , custcity varchar (10) PRIMARY KEY (custname));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(custname))' at line 1
+mysql> create table CUSTOMER (custname varchar (20) NOT NULL , custstr varchar (20)
+, custcity varchar (10));
+Query OK, 0 rows affected (0.54 sec)
+
+mysql> alter table CUSTOMER ADD PRIMARY KEY (custname);
+Query OK, 0 rows affected (1.30 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table DEPOSITOR (custname varchar (20), accno int (15),FOREIGN KEY (custname)REFERENCES CUSTOMER (custname), FOREIGN KEY (accno) REFERENCES ACCOUNT (accno));
+Query OK, 0 rows affected, 1 warning (0.78 sec)
+
+mysql> create table LOAN (loanno int (3) NOT NULL , brname varchar (20) , amt int (10) );
+Query OK, 0 rows affected, 2 warnings (0.37 sec)
+
+mysql> alter table LOAN ADD PRIMARY KEY (loanno) FOREIGN KEY (brname) REFERENCES BRANCH (brname) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (brname) REFERENCES BRANCH (brname)' at line 1
+mysql> alter table LOAN ADD PRIMARY KEY (loanno), FOREIGN KEY (brname) REFERENCES BRANCH (brname) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (brname) REFERENCES BRANCH (brname)' at line 1
+mysql> alter table LOAN ADD PRIMARY KEY (loanno) ;
+Query OK, 0 rows affected (0.99 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table LOAN FOREIGN KEY (brname) REFERENCES BRANCH (brname) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (brname) REFERENCES BRANCH (brname)' at line 1
+mysql> alter table LOAN ADD FOREIGN KEY (brname) REFERENCES BRANCH (brname) ;
+Query OK, 0 rows affected (1.49 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table BORROWER (custname varchar (20) , loanno int (5), FOREIGN KEY (custname) REFERENCES CUSTOMER (custname) ,  FOREIGN KEY loanno REFERENCES LOAN (loanno));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCES LOAN (loanno))' at line 1
+mysql> create table BORROWER (custname varchar (20) , loanno int (5), FOREIGN KEY (custname) REFERENCES CUSTOMER (custname) ,  FOREIGN KEY (loanno) REFERENCES LOAN (loanno));
+Query OK, 0 rows affected, 1 warning (0.63 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_anaya |
++-----------------+
+| ACCOUNT         |
+| BORROWER        |
+| BRANCH          |
+| CUSTOMER        |
+| DEPOSITOR       |
+| LOAN            |
++-----------------+
+6 rows in set (0.01 sec)
+
+mysql> desc ACCOUNT;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| accno  | int         | NO   | PRI | NULL    |       |
+| brname | varchar(15) | YES  | MUL | NULL    |       |
+| bal    | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc BRANCH
+    -> ;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| brname  | varchar(15) | NO   | PRI | NULL    |       |
+| brcity  | varchar(15) | YES  |     | NULL    |       |
+| assests | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (10,"NIGDI",500);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`anaya`.`ACCOUNT`, CONSTRAINT `ACCOUNT_ibfk_1` FOREIGN KEY (`brname`) REFERENCES `BRANCH` (`brname`))
+mysql> INSERT INTO BRANCH VALUES ('NIGDI', 'PUNE',100);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (10,"NIGDI",500);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (11,"",1000);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`anaya`.`ACCOUNT`, CONSTRAINT `ACCOUNT_ibfk_1` FOREIGN KEY (`brname`) REFERENCES `BRANCH` (`brname`))
+mysql> INSERT INTO BRANCH VALUES ('AKURDI','PUNE',100);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO BRANCH VALUES ('PIMPRI','PUNE',200);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO BRANCH VALUES ('PIMPRI','PUNE',300);
+ERROR 1062 (23000): Duplicate entry 'PIMPRI' for key 'BRANCH.PRIMARY'
+mysql> INSERT INTO ACCOUNT VALUES (12,"PIMPRI",1000);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (13,"AKURDI",1500);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from ACCOUNT;
++-------+--------+------+
+| accno | brname | bal  |
++-------+--------+------+
+|    10 | NIGDI  |  500 |
+|    12 | PIMPRI | 1000 |
+|    13 | AKURDI | 1500 |
++-------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from BRANCH;
++--------+--------+---------+
+| brname | brcity | assests |
++--------+--------+---------+
+| AKURDI | PUNE   |     100 |
+| NIGDI  | PUNE   |     100 |
+| PIMPRI | PUNE   |     200 |
++--------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (14,'PIMPRI',1040 );
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (15,'PIMPRI',1500 );
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from ACCOUNT;
++-------+--------+------+
+| accno | brname | bal  |
++-------+--------+------+
+|    10 | NIGDI  |  500 |
+|    12 | PIMPRI | 1000 |
+|    13 | AKURDI | 1500 |
+|    14 | PIMPRI | 1040 |
+|    15 | PIMPRI | 1500 |
++-------+--------+------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO BRANCH VALUES ('KATRAJ', 'PUNE', 150);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (16,'KATRAJ',16000 );
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES (17,'KATRAJ',16700 );
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES ('ABC', 'ST1','PUNE');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES ('DEF', 'ST2','PUNE');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES ('XYZ', 'ST3','PUNE');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO DEPOSITOR VALUES ('ABC', 10);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO DEPOSITOR VALUES ('DEF', 12);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO DEPOSITOR VALUES ('XYZ', 17);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> SELECT * FROM DEPOSITOR
+    -> ;
++----------+-------+
+| custname | accno |
++----------+-------+
+| ABC      |    10 |
+| DEF      |    12 |
+| XYZ      |    17 |
++----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO LOAN VALUES (100,'NIGDI',500000);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO LOAN VALUES (110,'PIMPRI',80000);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO LOAN VALUES (210,'AKURDI',900000);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> SELECT * FROM LOAN;
++--------+--------+--------+
+| loanno | brname | amt    |
++--------+--------+--------+
+|    100 | NIGDI  | 500000 |
+|    110 | PIMPRI |  80000 |
+|    210 | AKURDI | 900000 |
++--------+--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO LOAN VALUES (200,'AKURDI',15000);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO BORROWER VALUES ('ABC',100);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO BORROWER VALUES ('DEF',210);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> SELECT * FROM BORROWER
+    -> ;
++----------+--------+
+| custname | loanno |
++----------+--------+
+| ABC      |    100 |
+| DEF      |    210 |
++----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT brname FROM LOAN;
++--------+
+| brname |
++--------+
+| AKURDI |
+| AKURDI |
+| NIGDI  |
+| PIMPRI |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT loanno FROM LOAN WHERE brname='AKURDI', amt>12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', amt>12000' at line 1
+mysql> SELECT loanno FROM LOAN WHERE brname='AKURDI' AND amt IS >12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '>12000' at line 1
+mysql> SELECT loanno FROM LOAN WHERE brname='AKURDI', amt IS >12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', amt IS >12000' at line 1
+mysql> SELECT loanno FROM LOAN WHERE brname='AKURDI', amt=>12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', amt=>12000' at line 1
+mysql> SELECT loanno FROM LOAN WHERE brname='AKURDI'AND amt=>12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=>12000' at line 1
+mysql> SELECT loanno FROM LOAN WHERE brname='AKURDI' AND amt=>12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=>12000' at line 1
+mysql> SELECT *  FROM LOAN WHERE brname='AKURDI' AND amt=>12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=>12000' at line 1
+mysql> SELECT *  FROM LOAN WHERE brname='AKURDI' AND WHERE amt=>12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE amt=>12000' at line 1
+mysql> SELECT loanno FROM LOAN 
+    -> WHERE brname='AKURDI'
+    -> AND amt>12000;
++--------+
+| loanno |
++--------+
+|    200 |
+|    210 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT loanno FROM LOAN  WHERE brname='AKURDI' AND amt=>12000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=>12000' at line 1
+mysql> SELECT loanno FROM LOAN  WHERE brname='AKURDI' AND amt>=12000;
++--------+
+| loanno |
++--------+
+|    200 |
+|    210 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM LOAN,BORROWER 
+    -> ;
++--------+--------+--------+----------+--------+
+| loanno | brname | amt    | custname | loanno |
++--------+--------+--------+----------+--------+
+|    100 | NIGDI  | 500000 | DEF      |    210 |
+|    100 | NIGDI  | 500000 | ABC      |    100 |
+|    110 | PIMPRI |  80000 | DEF      |    210 |
+|    110 | PIMPRI |  80000 | ABC      |    100 |
+|    200 | AKURDI |  15000 | DEF      |    210 |
+|    200 | AKURDI |  15000 | ABC      |    100 |
+|    210 | AKURDI | 900000 | DEF      |    210 |
+|    210 | AKURDI | 900000 | ABC      |    100 |
++--------+--------+--------+----------+--------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT loanno,brname FROM LOAN
+    -> UNION
+    -> SELECT * FROM BORROWER;
++--------+--------+
+| loanno | brname |
++--------+--------+
+| 200    | AKURDI |
+| 210    | AKURDI |
+| 100    | NIGDI  |
+| 110    | PIMPRI |
+| ABC    | 100    |
+| DEF    | 210    |
++--------+--------+
+6 rows in set (0.01 sec)
+
+mysql> SELECT * FROM LOAN 
+    -> UNION 
+    -> SELECT custname FROM BORROWER;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> SELECT loanno,brname,custname,
+    -> amt FROM LOAN,BORROWER
+    -> WHERE LOAN.loanno=BRANCH.loanno;
+ERROR 1052 (23000): Column 'loanno' in field list is ambiguous
+mysql> SELECT loanno,brname,amt,custname
+    -> FROM LOAN,BORROWER
+    -> WHERE LOAN.loanno=BORROWER.loanno;
+ERROR 1052 (23000): Column 'loanno' in field list is ambiguous
+mysql> SELECT * FROM LOAN
+    -> INNER JOIN BORROWER
+    -> ON LOAN.loanno= BORROWER.loanno;
++--------+--------+--------+----------+--------+
+| loanno | brname | amt    | custname | loanno |
++--------+--------+--------+----------+--------+
+|    100 | NIGDI  | 500000 | ABC      |    100 |
+|    210 | AKURDI | 900000 | DEF      |    210 |
++--------+--------+--------+----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT loanno,amt FROM LOAN INNER JOIN BORROWER ON LOAN.loanno= BORROWER.loanno;
+ERROR 1052 (23000): Column 'loanno' in field list is ambiguous
+mysql> SELECT custname FROM BORROWER 
+    -> INNER JOIN LOAN
+    -> ON LOAN.brname='AKURDI';
++----------+
+| custname |
++----------+
+| ABC      |
+| ABC      |
+| DEF      |
+| DEF      |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT custname FROM DEPOSITOR 
+    -> WHERE accno IS NOT NULL 
+    -> AND 
+    -> BORROWER.loanno IS NOT NULL;
+ERROR 1054 (42S22): Unknown column 'BORROWER.loanno' in 'where clause'
+mysql> SELECT custname FROM DEPOSITOR,BORROWER
+    -> WHERE accno IS NOT NULL 
+    -> AND loanno IS NOT NULL;
+ERROR 1052 (23000): Column 'custname' in field list is ambiguous
+mysql> | performance_schema |
+    -> | student            |
+    -> | students           |
+    -> | sys                |
+    -> | te                 |
+    -> | tee                |
+    -> | userSchema         |
+    -> +--------------------+
+    -> 20 rows in set (0.01 sec)
+    -> 
+    -> mysql> use anaya
+    -> Database changed
+    -> mysql> show tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '| performance_schema |
+| student            |
+| students           |
+| sys      ' at line 1
+mysql> Empty set (0.01 sec)
+    -> 
+    -> mysql> create table ACCOUNT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Empty set (0.01 sec)
+
+mysql> create table ACCOUNT' at line 1
+mysql> ERROR 4028 (HY000): A table must have at least one visible column.
+    -> mysql> create table ACCOUNT(accno int (15) NOT NULL,brname varchar (15),bal int
+    -> (10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create' at line 1
+mysql> Query OK, 0 rows affected, 2 warnings (0.88 sec)
+    -> 
+    -> mysql> alter table ACCOUNT ADD PRIMARY KEY (accno);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Query OK, 0 rows affected, 2 warnings (0.88 sec)
+
+mysql> alter table ACCOUNT ADD' at line 1
+mysql> Query OK, 0 rows affected (1.02 sec)
+    -> Records: 0  Duplicates: 0  Warnings: 0
+    -> 
+    -> mysql> create table BRANCH (brname varchar (15), brcity varchar (15), assests int (10) PRIMARY KEY (brname));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Query OK, 0 rows affected (1.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mys' at line 1
+mysql> | performance_schema |
+    -> | student            |
+    -> | students           |
+    -> | sys                |
+    -> | te                 |
+    -> | tee                |
+    -> | userSchema         |
+    -> +--------------------+
+    -> 20 rows in set (0.01 sec)
+    -> 
+    -> mysql> use anaya
+    -> Database changed
+    -> mysql> show tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '| performance_schema |
+| student            |
+| students           |
+| sys      ' at line 1
+mysql> Empty set (0.01 sec)
+    -> 
+    -> mysql> create table ACCOUNT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Empty set (0.01 sec)
+
+mysql> create table ACCOUNT' at line 1
+mysql> ERROR 4028 (HY000): A table must have at least one visible column.
+    -> mysql> create table ACCOUNT(accno int (15) NOT NULL,brname varchar (15),bal int
+    -> (10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create' at line 1
+mysql> Query OK, 0 rows affected, 2 warnings (0.88 sec)
+    -> 
+    -> mysql> alter table ACCOUNT ADD PRIMARY KEY (accno);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Query OK, 0 rows affected, 2 warnings (0.88 sec)
+
+mysql> alter table ACCOUNT ADD' at line 1
+mysql> Query OK, 0 rows affected (1.02 sec)
+    -> Records: 0  Duplicates: 0  Warnings: 0
+    -> 
+    -> mysql> create table BRANCH (brname varchar (15), brcity varchar (15), assests int (10) PRIMARY KEY (brname));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Query OK, 0 rows affected (1.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mys' at line 1
+mysql> 
+
+
