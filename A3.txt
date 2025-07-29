@@ -1,0 +1,97 @@
+mysql> -- 1.)Create a View1 to display List all customers in alphabetical order who have loan from
+mysql> Pune_Station branch.
+mysql> CREATE VIEW view1 AS SELECT BORROWER.custname, BORROWER.loanno , LOAN.brname FROM BORROWER  JOIN LOAN ON BORROWER.loanno=LOAN.loanno WHERE LOAN.brname='AKURDI' ORDER BY BORROWER.custname ASC;
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> SELECT * FROM view1;
++----------+--------+--------+
+| custname | loanno | brname |
++----------+--------+--------+
+| AMIT     |     30 | AKURDI |
+| PRIYA    |     10 | AKURDI |
++----------+--------+--------+
+2 rows in set (0.01 sec)
+
+mysql> /* Create View2 on branch table by selecting any two columns and perform insert
+   /*> update delete operations*/
+
+mysql> CREATE VIEW view2 AS SELECT custname, custcity FROM CUSTOMER;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> SELECT * FROM view2;
++----------+----------+
+| custname | custcity |
++----------+----------+
+| AMIT     | DELHI    |
+| POOJA    | PUNE     |
+| PRIYA    | PUNE     |
+| RAJ      | MUMBAI   |
+| ROHAN    | PUNE     |
+| SNEHA    | MUMBAI   |
++----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> -- 2.1) INSERT OPERATION
+
+mysql> INSERT INTO view2 VALUES ('ARJUN', 'MUMBAI');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO view2 VALUES ('REEMA', 'NASHIK');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> SELECT * FROM view2;
++----------+----------+
+| custname | custcity |
++----------+----------+
+| AMIT     | DELHI    |
+| ARJUN    | MUMBAI   |
+| POOJA    | PUNE     |
+| PRIYA    | PUNE     |
+| RAJ      | MUMBAI   |
+| REEMA    | NASHIK   |
+| ROHAN    | PUNE     |
+| SNEHA    | MUMBAI   |
++----------+----------+
+8 rows in set (0.00 sec)
+
+mysql> -- 2.2) UPDATE OPERATION
+
+mysql> UPDATE view2 SET custcity='NAGAR' WHERE custcity='NASHIK';
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM view2;
++----------+----------+
+| custname | custcity |
++----------+----------+
+| AMIT     | DELHI    |
+| ARJUN    | MUMBAI   |
+| POOJA    | PUNE     |
+| PRIYA    | PUNE     |
+| RAJ      | MUMBAI   |
+| REEMA    | NAGAR    |
+| ROHAN    | PUNE     |
+| SNEHA    | MUMBAI   |
++----------+----------+
+8 rows in set (0.00 sec)
+
+mysql> -- 2.3) DELETE OPERATION
+
+mysql> DELETE FROM view2 WHERE custname='REEMA';
+Query OK, 1 row affected (0.10 sec)
+
+mysql> SELECT * FROM view2;
++----------+----------+
+| custname | custcity |
++----------+----------+
+| AMIT     | DELHI    |
+| ARJUN    | MUMBAI   |
+| POOJA    | PUNE     |
+| PRIYA    | PUNE     |
+| RAJ      | MUMBAI   |
+| ROHAN    | PUNE     |
+| SNEHA    | MUMBAI   |
++----------+----------+
+7 rows in set (0.00 sec)
+
+
