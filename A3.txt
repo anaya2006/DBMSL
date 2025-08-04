@@ -1,97 +1,120 @@
-mysql> -- 1.)Create a View1 to display List all customers in alphabetical order who have loan from
-mysql> Pune_Station branch.
-mysql> CREATE VIEW view1 AS SELECT BORROWER.custname, BORROWER.loanno , LOAN.brname FROM BORROWER  JOIN LOAN ON BORROWER.loanno=LOAN.loanno WHERE LOAN.brname='AKURDI' ORDER BY BORROWER.custname ASC;
-Query OK, 0 rows affected (0.21 sec)
+Create a View1 to display List all customers in alphabetical order who have loan from Pune_Station branch.
 
-mysql> SELECT * FROM view1;
-+----------+--------+--------+
-| custname | loanno | brname |
-+----------+--------+--------+
-| AMIT     |     30 | AKURDI |
-| PRIYA    |     10 | AKURDI |
-+----------+--------+--------+
-2 rows in set (0.01 sec)
+2. Create View2 on branch table by selecting any two columns and perform insert update delete operations.
 
-mysql> /* Create View2 on branch table by selecting any two columns and perform insert
-   /*> update delete operations*/
+3. Create View3 on borrower and depositor table by selecting any one column from each table perform insert update delete operations.
 
-mysql> CREATE VIEW view2 AS SELECT custname, custcity FROM CUSTOMER;
+4. Create Union of left and right joint for all customers who have an account or loan or both at bank
+
+5. Display content of View1,View2,View3
+
+6. Create Simple and Unique index.
+
+7. Display index Information
+
+8. Truncate table Customer
+
+
+mysql> -- 1.) create a view to display list of all customers in alphabetical order who have loan from nigdi branch
+
+mysql>  CREATE VIEW view1 AS SELECT BORROWER.custname, BORROWER.loanno, LOAN.brname FROM BORROWER JOIN LOAN ON BORROWER.loanno=LOAN.loanno WHERE LOAN.brname='PUNE STATION' ORDER BY BORROWER.custname ASC;
 Query OK, 0 rows affected (0.14 sec)
 
-mysql> SELECT * FROM view2;
-+----------+----------+
-| custname | custcity |
-+----------+----------+
-| AMIT     | DELHI    |
-| POOJA    | PUNE     |
-| PRIYA    | PUNE     |
-| RAJ      | MUMBAI   |
-| ROHAN    | PUNE     |
-| SNEHA    | MUMBAI   |
-+----------+----------+
-6 rows in set (0.00 sec)
+mysql> SELECT * FROM view1;
++----------+--------+--------------+
+| custname | loanno | brname       |
++----------+--------+--------------+
+| PAYAL    |     70 | PUNE STATION |
+| PIYUSH   |     60 | PUNE STATION |
++----------+--------+--------------+
+2 rows in set (0.00 sec)
 
-mysql> -- 2.1) INSERT OPERATION
+2. Create View2 on branch table by selecting any two columns and perform insert update delete operations.
 
-mysql> INSERT INTO view2 VALUES ('ARJUN', 'MUMBAI');
-Query OK, 1 row affected (0.08 sec)
+mysql> CREATE VIEW view2 AS SELECT brname,brcity FROM BRANCH;
+Query OK, 0 rows affected (0.16 sec)
 
-mysql> INSERT INTO view2 VALUES ('REEMA', 'NASHIK');
-Query OK, 1 row affected (0.12 sec)
+mysql> INSERT INTO view2 VALUES ('YERAWDA', 'PUNE') , ('WADIA', 'PUNE'), ('VILE PARLE', 'MUMBAI');
+Query OK, 3 rows affected (0.13 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 
 mysql> SELECT * FROM view2;
-+----------+----------+
-| custname | custcity |
-+----------+----------+
-| AMIT     | DELHI    |
-| ARJUN    | MUMBAI   |
-| POOJA    | PUNE     |
-| PRIYA    | PUNE     |
-| RAJ      | MUMBAI   |
-| REEMA    | NASHIK   |
-| ROHAN    | PUNE     |
-| SNEHA    | MUMBAI   |
-+----------+----------+
++--------------+--------+
+| brname       | brcity |
++--------------+--------+
+| AKURDI       | PUNE   |
+| DECCAN       | PUNE   |
+| NIGDI        | PUNE   |
+| PUNE STATION | PUNE   |
+| VASHI        | MUMBAI |
+| VILE PARLE   | MUMBAI |
+| WADIA        | PUNE   |
+| YERAWDA      | PUNE   |
++--------------+--------+
 8 rows in set (0.00 sec)
 
-mysql> -- 2.2) UPDATE OPERATION
-
-mysql> UPDATE view2 SET custcity='NAGAR' WHERE custcity='NASHIK';
-Query OK, 1 row affected (0.08 sec)
+mysql> UPDATE view2 SET brname='ANDHERI' WHERE brname='VILE PARLE';
+Query OK, 1 row affected (0.07 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> SELECT * FROM view2;
-+----------+----------+
-| custname | custcity |
-+----------+----------+
-| AMIT     | DELHI    |
-| ARJUN    | MUMBAI   |
-| POOJA    | PUNE     |
-| PRIYA    | PUNE     |
-| RAJ      | MUMBAI   |
-| REEMA    | NAGAR    |
-| ROHAN    | PUNE     |
-| SNEHA    | MUMBAI   |
-+----------+----------+
++--------------+--------+
+| brname       | brcity |
++--------------+--------+
+| AKURDI       | PUNE   |
+| ANDHERI      | MUMBAI |
+| DECCAN       | PUNE   |
+| NIGDI        | PUNE   |
+| PUNE STATION | PUNE   |
+| VASHI        | MUMBAI |
+| WADIA        | PUNE   |
+| YERAWDA      | PUNE   |
++--------------+--------+
 8 rows in set (0.00 sec)
 
-mysql> -- 2.3) DELETE OPERATION
-
-mysql> DELETE FROM view2 WHERE custname='REEMA';
-Query OK, 1 row affected (0.10 sec)
+mysql> DELETE FROM view2 WHERE brname='WADIA';
+Query OK, 1 row affected (0.14 sec)
 
 mysql> SELECT * FROM view2;
-+----------+----------+
-| custname | custcity |
-+----------+----------+
-| AMIT     | DELHI    |
-| ARJUN    | MUMBAI   |
-| POOJA    | PUNE     |
-| PRIYA    | PUNE     |
-| RAJ      | MUMBAI   |
-| ROHAN    | PUNE     |
-| SNEHA    | MUMBAI   |
-+----------+----------+
++--------------+--------+
+| brname       | brcity |
++--------------+--------+
+| AKURDI       | PUNE   |
+| ANDHERI      | MUMBAI |
+| DECCAN       | PUNE   |
+| NIGDI        | PUNE   |
+| PUNE STATION | PUNE   |
+| VASHI        | MUMBAI |
+| YERAWDA      | PUNE   |
++--------------+--------+
 7 rows in set (0.00 sec)
 
+
+3. Create View3 on borrower and depositor table by selecting any one column from each table perform insert update delete operations.
+
+mysql> CREATE VIEW view3 AS  SELECT BORROWER.custname AS bname , DEPOSITOR.accno AS daccno FROM BORROWER JOIN DEPOSITOR ON BORROWER.custname=DEPOSITOR.custname;
+Query OK, 0 rows affected (0.11 sec)
+
+
+mysql>  INSERT INTO LOAN VALUES ('80', 'DECCAN', '15000');
+Query OK, 1 row affected (0.07 sec)
+mysql> INSERT INTO ACCOUNT VALUES ('6', 'DECCAN', '156000');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO CUSTOMER  VALUES ('ANANYA', 'S9', 'PUNE');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO BORROWER VALUES ('ANANYA', '80');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> SELECT * FROM view3;
++--------+--------+
+| bname  | daccno |
++--------+--------+
+| AMIT   |      4 |
+| ANANYA |      6 |
+| ANANYA |      6 |
+| PRIYA  |      1 |
+| ROHAN  |      2 |
++--------+--------+
 
