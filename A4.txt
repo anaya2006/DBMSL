@@ -1,0 +1,25 @@
+CREATE TABLE BORROWER 
+(
+   rollno NUMBER(3) ,
+   name VARCHAR2(10),
+   doi DATE,
+   status BOOLEAN
+);
+
+CREATE TABLE FINE 
+(
+  rollno NUMBER (3),
+  date1 DATE,
+  amt NUMBER (10)
+);
+
+INSERT INTO BORROWER values
+(
+  01, 'A', TO_DATE('01/08/2025','DD/MM/YYYY' ), FALSE
+) , ( 02, 'B' , TO_DATE('02/08/2025', 'DD/MM/YYYY') , TRUE) , (04, 'C', TO_DATE('03/08/2025','DD/MM/YYYY'),TRUE);
+
+SELECT 
+   name,doi ,
+   TRUNC(SYSDATE)-TRUNC(doi)
+   AS days
+FROM BORROWER;
