@@ -1,0 +1,34 @@
+2nd IMPLEMENTATION
+
+CREATE TABLE CIRCLE (RADIUS FLOAT (5) ,  AREAS FLOAT (5)); 
+
+    DECLARE
+     r FLOAT ;
+     a FLOAT ;
+
+     BEGIN 
+        FOR i IN 5..9 
+         LOOP
+         a := 3.14*i*i;
+         INSERT INTO CIRCLE (RADIUS, AREAS) VALUES (i,a);
+         END LOOP;
+    END;
+    /
+    
+    
+ 1st IMPLEMENTATION 
+ 
+ 
+     CREATE TABLE borrower (
+    roll NUMBER(3) ,
+    sname VARCHAR2(10),
+    doi DATE,
+    bname VARCHAR2(10),
+    bstatus VARCHAR2(1)
+    );
+
+CREATE TABLE fine (
+     roll NUMBER(3),
+     idate DATE,
+     amt NUMBER(5)
+);
