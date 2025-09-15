@@ -1,0 +1,137 @@
+
+mysql> select * from COMPANIES;
++---------+------+------+------+
+| comp_id | name | cost | year |
++---------+------+------+------+
+| C001    | ONGC | 2000 | 2010 |
+| C002    | HPCL | 2500 | 2012 |
+| C005    | IOCL | 1000 | 2014 |
+| C006    | BHEL | 3000 | 2015 |
++---------+------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from ORDERS;
++---------+---------+----------+
+| comp_id | domain  | quantity |
++---------+---------+----------+
+| C001    | OIL     | 109      |
+| C002    | GAS     | 121      |
+| C005    | TELECOM | 115      |
++---------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select c.name, c.cost, o.domain, o.quantity
+    -> from companies c
+    -> inner join orders^C
+mysql> select c.name, c.cost, o.domain, o.quantity
+    -> from COMPANIES c
+    -> inner join ORDERS o ON c.comp_id=o.comp_id;
++------+------+---------+----------+
+| name | cost | domain  | quantity |
++------+------+---------+----------+
+| ONGC | 2000 | OIL     | 109      |
+| HPCL | 2500 | GAS     | 121      |
+| IOCL | 1000 | TELECOM | 115      |
++------+------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select c.name, c.cost, o.domain, o.quantity from COMPANIES c left join ORDE
+RS o ON c.comp_id=o.comp_id;
++------+------+---------+----------+
+| name | cost | domain  | quantity |
++------+------+---------+----------+
+| ONGC | 2000 | OIL     | 109      |
+| HPCL | 2500 | GAS     | 121      |
+| IOCL | 1000 | TELECOM | 115      |
+| BHEL | 3000 | NULL    | NULL     |
++------+------+---------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select c.name, c.cost, o.domain, o.quantity from COMPANIES c right join ORD
+ERS o ON c.comp_id=o.comp_id;
++------+------+---------+----------+
+| name | cost | domain  | quantity |
++------+------+---------+----------+
+| ONGC | 2000 | OIL     | 109      |
+| HPCL | 2500 | GAS     | 121      |
+| IOCL | 1000 | TELECOM | 115      |
++------+------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select c.name, c.cost FROM COMPANIES c
+    -> WHERE c.comp_id= o.comp_id
+    -> UNION
+    -> select o.domain, o.quantity FROM ORDERS o;
+ERROR 1054 (42S22): Unknown column 'o.comp_id' in 'where clause'
+mysql> select c.name, c.cost FROM COMPANIES c  UNION select o.domain, o.quantity F
+ROM ORDERS o WHERE c.comp_id=o.comp_id;
+ERROR 1054 (42S22): Unknown column 'c.comp_id' in 'where clause'
+mysql> select c.name, c.cost FROM COMPANIES c  UNION select o.domain, o.quantity FROM ORDERS o ;
++---------+------+
+| name    | cost |
++---------+------+
+| ONGC    | 2000 |
+| HPCL    | 2500 |
+| IOCL    | 1000 |
+| BHEL    | 3000 |
+| OIL     | 109  |
+| GAS     | 121  |
+| TELECOM | 115  |
++---------+------+
+7 rows in set (0.05 sec)
+
+mysql> create view view1 as
+    -> select * from COMPANIES AND ORDERS;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND ORDERS' at line 2
+mysql> create view view1 as select * from COMPANIES AND select * FROM ORDERS;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND select * FROM ORDERS' at line 1
+mysql> create view view1 as
+    -> select c.name, o.quantity
+    -> from COMPANIES c
+    -> join ORDERS o ON c.comp_id=o.comp_id;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create view view2 as
+    -> select * from ORDERS;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into view2 values ('C007', 'OIL', 250) , ('C008', 'OIL' , 300);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`a3`.`ORDERS`, CONSTRAINT `ORDERS_ibfk_1` FOREIGN KEY (`comp_id`) REFERENCES `COMPANIES` (`comp_id`))
+mysql> insert into view2 values ('C006', 'ELECTRICITY', 250) ;
+ERROR 1406 (22001): Data too long for column 'domain' at row 1
+mysql> insert into view2 values ('C006', 'ELECTRIC', 250) ;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> update view view2
+    -> set domain='GAS' where domain='OIL';
+ERROR 1146 (42S02): Table 'a3.view' doesn't exist
+mysql> update view2  set domain='GAS' where domain='OIL';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from view2;
++---------+----------+----------+
+| comp_id | domain   | quantity |
++---------+----------+----------+
+| C001    | GAS      | 109      |
+| C002    | GAS      | 121      |
+| C005    | TELECOM  | 115      |
+| C006    | ELECTRIC | 250      |
++---------+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> delete from view2 comp_id='C006';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='C006'' at line 1
+mysql> select * from view1;
++------+----------+
+| name | quantity |
++------+----------+
+| ONGC | 109      |
+| HPCL | 121      |
+| IOCL | 115      |
+| BHEL | 250      |
++------+----------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql>
