@@ -1,0 +1,383 @@
+[{
+  "_id": {
+    "$oid": "68ec8f56bbc979ea09a743cd"
+  },
+  "empid": 100,
+  "name": {
+    "fname": "Anaya",
+    "lname": "Badave"
+  },
+  "comp_name": "Infosys",
+  "salary": 45000,
+  "designation": "Developer",
+  "age": 23,
+  "expertise": [
+    "mongodb",
+    "mysql",
+    "django"
+  ],
+  "dob": {
+    "$date": "2006-01-05T00:00:00.000Z"
+  },
+  "email": "anaya06@gmail.com",
+  "contact": "1234567890",
+  "address": [
+    {
+      "padd": {
+        "city": "pune",
+        "pin": "411018"
+      }
+    },
+    {
+      "ladd": {
+        "city": "pune",
+        "pin": "411018"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec94cebbc979ea09a743ce"
+  },
+  "empid": 101,
+  "name": {
+    "fname": "Arya",
+    "lname": "Dixit"
+  },
+  "comp_name": "TCS",
+  "salary": 50000,
+  "designation": "Tester",
+  "age": 25,
+  "expertise": [
+    "oracle",
+    "hadoop",
+    "docker"
+  ],
+  "dob": {
+    "$date": "2000-08-08T00:00:00.000Z"
+  },
+  "email": "arya08@yahoo.com",
+  "contact": "8308495860",
+  "address": [
+    {
+      "padd": {
+        "city": "mumbai",
+        "pin": "414001"
+      }
+    },
+    {
+      "ladd": {
+        "city": "pune",
+        "pin": "411001"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec94cebbc979ea09a743cf"
+  },
+  "empid": 102,
+  "name": {
+    "fname": "Surya",
+    "lname": "Yadav"
+  },
+  "comp_name": "Cognizant",
+  "salary": 80000,
+  "designation": "Programmer",
+  "age": 30,
+  "expertise": [
+    "cassandra",
+    "mysql",
+    "bootstrap",
+    "oracle"
+  ],
+  "dob": {
+    "$date": "1995-06-16T00:00:00.000Z"
+  },
+  "email": "suryadav95@gmail.com",
+  "contact": "8937650889",
+  "address": [
+    {
+      "padd": {
+        "city": "patna",
+        "pin": "441101"
+      }
+    },
+    {
+      "ladd": {
+        "city": "delhi",
+        "pin": "461203"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec9b77bbc979ea09a743d0"
+  },
+  "empid": 104,
+  "name": {
+    "fname": "Yatin",
+    "lname": "Joshi"
+  },
+  "comp_name": "Infosys",
+  "salary": 25000,
+  "designation": "Programmer",
+  "age": 19,
+  "expertise": [
+    "mysql",
+    "kubernetes",
+    "os"
+  ],
+  "dob": {
+    "$date": "2005-08-23T00:00:00.000Z"
+  },
+  "email": "yatinjoshi@yahoo.com",
+  "contact": "8368995860",
+  "address": [
+    {
+      "padd": {
+        "city": "nagar",
+        "pin": "414017"
+      }
+    },
+    {
+      "ladd": {
+        "city": "pune",
+        "pin": "411001"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec9b77bbc979ea09a743d1"
+  },
+  "empid": 105,
+  "name": {
+    "fname": "Sai",
+    "lname": "Adep"
+  },
+  "comp_name": "Cognizant",
+  "salary": 35000,
+  "designation": "Programmer",
+  "age": 24,
+  "expertise": [
+    "cassandra",
+    "golang",
+    "oracle"
+  ],
+  "dob": {
+    "$date": "2001-09-07T00:00:00.000Z"
+  },
+  "email": "adepsai32@gmail.com",
+  "contact": "8937679889",
+  "address": [
+    {
+      "padd": {
+        "city": "nagpur",
+        "pin": "441101"
+      }
+    },
+    {
+      "ladd": {
+        "city": "mumbai",
+        "pin": "440113"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec9b77bbc979ea09a743d2"
+  },
+  "empid": 106,
+  "name": {
+    "fname": "Sara",
+    "lname": "Patel"
+  },
+  "comp_name": "TCS",
+  "salary": 100000,
+  "designation": "Tester",
+  "age": 22,
+  "expertise": [
+    "mongodb",
+    "mysql",
+    "cassandra"
+  ],
+  "dob": {
+    "$date": "2003-03-15T00:00:00.000Z"
+  },
+  "email": "sarashan86@gmail.com",
+  "contact": "89375450889",
+  "address": [
+    {
+      "padd": {
+        "city": "pune",
+        "pin": "411001"
+      }
+    },
+    {
+      "ladd": {
+        "city": "delhi",
+        "pin": "461203"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec9b77bbc979ea09a743d3"
+  },
+  "empid": 107,
+  "name": {
+    "fname": "Sanika",
+    "lname": "Jadhav"
+  },
+  "comp_name": "TCS",
+  "salary": 45000,
+  "designation": "Developer",
+  "age": 35,
+  "expertise": [
+    "cassandra",
+    "mysql",
+    "bootstrap",
+    "oracle"
+  ],
+  "dob": {
+    "$date": "1990-04-25T00:00:00.000Z"
+  },
+  "email": "emp107@gmail.com",
+  "contact": "8937650883",
+  "address": [
+    {
+      "padd": {
+        "city": "pune",
+        "pin": "411001"
+      }
+    },
+    {
+      "ladd": {
+        "city": "noida",
+        "pin": "461203"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec9b77bbc979ea09a743d4"
+  },
+  "empid": 108,
+  "name": {
+    "fname": "Aisha",
+    "lname": "Khan"
+  },
+  "comp_name": "Cognizant",
+  "salary": 20000,
+  "designation": "Programmer",
+  "age": 27,
+  "expertise": [
+    "cassandra",
+    "mysql",
+    "bootstrap",
+    "django"
+  ],
+  "dob": {
+    "$date": "1998-06-16T00:00:00.000Z"
+  },
+  "email": "khanalisha1998@gmail.com",
+  "contact": "8937607889",
+  "address": [
+    {
+      "padd": {
+        "city": "banglore",
+        "pin": "441101"
+      }
+    },
+    {
+      "ladd": {
+        "city": "pune",
+        "pin": "411001"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec9b77bbc979ea09a743d5"
+  },
+  "empid": 109,
+  "name": {
+    "fname": "Raghav",
+    "lname": "Suryavanshi"
+  },
+  "comp_name": "TCS",
+  "salary": 95000,
+  "designation": "Tester",
+  "age": 26,
+  "expertise": [
+    "mysql",
+    "bootstrap",
+    "oracle"
+  ],
+  "dob": {
+    "$date": "1999-07-21T00:00:00.000Z"
+  },
+  "email": "raghavsvanshi99@yahoo.com",
+  "contact": "8947650889",
+  "address": [
+    {
+      "padd": {
+        "city": "agra",
+        "pin": "441101"
+      }
+    },
+    {
+      "ladd": {
+        "city": "delhi",
+        "pin": "461203"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68ec9dd6bbc979ea09a743d6"
+  },
+  "empid": 103,
+  "name": {
+    "fname": "Shreya",
+    "lname": "Deshpande"
+  },
+  "comp_name": "Infosys",
+  "salary": 75000,
+  "designation": "Programmer",
+  "age": 21,
+  "expertise": [
+    "cauchdb",
+    "oracle",
+    "ruby"
+  ],
+  "dob": {
+    "$date": "1970-01-01T00:00:01.987Z"
+  },
+  "email": "shreya45@gmail.com",
+  "contact": "9850043860",
+  "address": [
+    {
+      "padd": {
+        "city": "mumbai",
+        "pin": "440014"
+      }
+    },
+    {
+      "ladd": {
+        "city": "nashik",
+        "pin": "413011"
+      }
+    }
+  ]
+}]
